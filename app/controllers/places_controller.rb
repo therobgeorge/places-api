@@ -25,8 +25,11 @@ class PlacesController < ApplicationController
     place = Place.find(params[:id])
     place.name = params[:name] || place.name
     place.address = params[:name] || place.address
-    place.save
-    render json: place
+    if place.save
+      render json: place
+    else  
+      render json: {errors: recipe.errors.full_messages}, status: unprocessable_entity
+    end
   end
 
   def destroy
